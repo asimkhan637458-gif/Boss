@@ -6,74 +6,46 @@ import urllib.parse
 import time
 
 # --- CONFIGURATION ---
-# Aapka GitHub RAW link
-APPROVAL_URL = "https://raw.githubusercontent.com/asimkhan637458-gif/Aprowl.txt/e8286a726e18ee631f4153c303455ade46274333/Aprowl.txt"
+# Yaad rakhein: Link hamesha RAW wala hona chahiye
+APPROVAL_URL = "https://raw.githubusercontent.com/asimkhan637458-gif/Aprowl.txt/main/Aprowl.txt"
 OWNER_NUMBER = "+923207706955"
 
-def ____banner____():
-    os.system('clear')
-    print("""\033[1;32m
-████████╗ ██████╗ ███████╗██╗
- ██╔════╝██╔═══██╗╚══███╔╝██║
- █████╗  ██║   ██║  ███╔╝ ██║
- ██╔══╝  ██║   ██║ ███╔╝  ██║
- ██║     ╚██████╔╝███████╗██║
- ╚═╝      ╚═════╝ ╚══════╝╚═╝
- ██████╗  ██████╗ ███████╗███████╗
- ██╔══██╗██╔═══██╗██╔════╝██╔════╝
- ██████╔╝██║   ██║███████╗███████╗
- ██╔══██╗██║   ██║╚════██║╚════██║
- ██████╔╝╚██████╔╝███████║███████║
- ╚═════╝  ╚═════╝ ╚══════╝╚══════╝\033[0m""")
-
 def FOZI_BOSS_APPROVAL():
-    ____banner____()
-    
-    # --- STRICT HWID GENERATION ---
-    # Yeh logic har device ke liye unique key banaye ga
+    os.system('clear')
+    # Unique HWID generation
     try:
-        # Device information aur unique system ID ka milap
         device_data = os.popen('getprop ro.product.model').read().strip() + os.getlogin() + str(os.getuid())
     except:
-        device_data = "FOZI_FIXED_" + str(os.getuid())
+        device_data = "FOZI_DEVICE_" + str(os.getuid())
         
-    # Unique 12-digit key generate karna
     hwid = hashlib.sha256(device_data.encode()).hexdigest().upper()[:12]
     
-    print(f"\033[1;36m [●] DEVICE KEY : \033[1;37m{hwid}")
+    print(f"\033[1;32m [●] YOUR KEY : {hwid}")
     print("\033[1;33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print("\033[1;35m [!] STATUS     : \033[1;37mVerifying Online Access...")
     
     try:
-        # GitHub server se live check
-        # Timeout isliye taake agar internet slow ho to script hang na ho
-        response = requests.get(APPROVAL_URL, timeout=10)
-        approved_keys = response.text
+        # GitHub se data fetch karna
+        response = requests.get(APPROVAL_URL, timeout=15)
+        # .strip() aur .upper() lagaya hai taake space ka masla na ho
+        approved_keys = response.text.upper().strip()
         
         if hwid in approved_keys:
             print("\033[1;32m [✔] ACCESS GRANTED! WELCOME BOSS.")
             time.sleep(2)
         else:
-            # Agar key GitHub file mein nahi hai
-            print("\033[1;31m [×] ACCESS DENIED! YOUR KEY IS NOT IN SERVER.")
-            print("\033[1;32m [→] OPENING WHATSAPP FOR APPROVAL...")
-            time.sleep(3)
+            print("\033[1;31m [×] KEY NOT FOUND IN SERVER.")
+            print("\033[1;36m [!] REDIRECTING TO WHATSAPP...")
+            time.sleep(2)
             
-            # WhatsApp message setup
-            msg = f"Assalam-o-Alaikum FOZI BOSS,\n\nMeri Key Approve Kar Dein.\nKey: {hwid}"
+            msg = f"Assalam-o-Alaikum FOZI BOSS, Approve My Key\nKey: {hwid}"
             encoded_msg = urllib.parse.quote(msg)
-            
-            # WhatsApp redirect logic
             os.system(f'xdg-open https://wa.me/{OWNER_NUMBER}?text={encoded_msg}')
             sys.exit()
             
-    except requests.exceptions.RequestException:
-        print("\033[1;31m [!] ERROR: INTERNET YA SERVER KA MASLA HAI!")
+    except:
+        print("\033[1;31m [!] INTERNET ERROR OR SERVER BUSY!")
         sys.exit()
 
 if __name__ == '__main__':
-    # Yeh function ab lazmi har device par chale ga
     FOZI_BOSS_APPROVAL()
-    
-    # Iske niche aapka baki ka cloning code aayega
-    print("\033[1;32m [●] SUCCESS: LOADING CLONING MODULES...")
+    # Aapka BNG_71_() yahan se shuru hoga
