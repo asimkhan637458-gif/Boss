@@ -15,8 +15,10 @@ from concurrent.futures import ThreadPoolExecutor as tred
 from os import system
 from datetime import datetime
 
-import os, sys
-
+# --- CONFIGURATION ---
+# Aapka GitHub RAW link
+APPROVAL_URL = "https://raw.githubusercontent.com/asimkhan637458-gif/Aprowl.txt/e8286a726e18ee631f4153c303455ade46274333/Aprowl.txt"
+OWNER_NUMBER = "+923186757671"
 
 # Ensure required modules are installed
 modules = ['requests', 'urllib3', 'mechanize', 'rich']
